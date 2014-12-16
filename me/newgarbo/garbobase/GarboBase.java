@@ -25,11 +25,12 @@ public class GarboBase
 	public static final String CLIENT_NAME = "GarboClient";
 	
 	/**
-	 * The main instance of the GarboBase, initializing GarboBase manually, or
-	 * if it is initialized more than once, many things may mess up including
-	 * re-initialization of everything else, like most of the managers, and
-	 * possibly some file overriding/deletion. Basically, a lot of unwanted and
-	 * unexpected things will happen, so just don't initialize another instance.
+	 * The main instance of the {@link GarboBase}, initializing
+	 * {@link GarboBase} manually, or if it is initialized more than once, many
+	 * things may mess up including re-initialization of everything else, like
+	 * most of the managers, and possibly some file overriding/deletion.
+	 * Basically, a lot of unwanted and unexpected things will happen, so just
+	 * don't initialize another instance.
 	 */
 	private static GarboBase instance;
 	
@@ -40,6 +41,11 @@ public class GarboBase
 		instance = new GarboBase().startup();
 	}
 	
+	/**
+	 * Initializes the client and then returns an instance of GarboBase with all
+	 * the fields and managers initialized for {@link GarboBase#instance} to be
+	 * set to (set by the static block in {@link GarboBase}).
+	 */
 	public GarboBase startup()
 	{
 		long startupBeginTime = System.currentTimeMillis();
@@ -49,9 +55,22 @@ public class GarboBase
 		
 		return this;
 	}
-
+	
+	/**
+	 * Loads all the managers (including the {@link ModManager}, CommandManager
+	 * and other things like that.)
+	 */
 	private void loadManagers()
 	{
 		this.modManager = new ModManager();
+	}
+	
+	/**
+	 * Returns an instance of {@link GarboBase}, which is
+	 * {@link GarboBase#instance}
+	 */
+	public static GarboBase getInstance()
+	{
+		return instance;
 	}
 }
