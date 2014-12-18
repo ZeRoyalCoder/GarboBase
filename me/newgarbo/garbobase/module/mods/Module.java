@@ -37,6 +37,14 @@ public abstract class Module
 	 */
 	private int color;
 	
+	public Module(String displayName, String name, Key keybind, int color)
+	{
+		this.displayName = displayName;
+		this.name = name;
+		this.keybind = keybind;
+		this.color = color;
+	}
+	
 	/**
 	 * Returns the {@link Module#displayName}
 	 */

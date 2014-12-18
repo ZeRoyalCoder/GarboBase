@@ -1,5 +1,6 @@
 package me.newgarbo.garbobase;
 
+import me.newgarbo.garbobase.logger.GarboLogger;
 import me.newgarbo.garbobase.module.ModManager;
 
 /**
@@ -34,7 +35,18 @@ public class GarboBase
 	 */
 	private static GarboBase instance;
 	
-	public ModManager modManager;
+	/**
+	 * The main Module Manager instance, do NOT instantiate another one of these
+	 * classes or else a lot of errors and other unexpected things may occur.
+	 */
+	private ModManager modManager;
+	
+	/**
+	 * The main instance of the GarboLogger, this is instantiated in the startup
+	 * method, which is used for any logging, to be able to log it and just to
+	 * be able to change the logging format at any point.
+	 */
+	private GarboLogger logger;
 	
 	static
 	{
@@ -53,6 +65,8 @@ public class GarboBase
 		
 		loadManagers();
 		
+		this.logger = new GarboLogger(CLIENT_NAME);
+		
 		return this;
 	}
 	
@@ -63,6 +77,26 @@ public class GarboBase
 	private void loadManagers()
 	{
 		this.modManager = new ModManager();
+		
+		this.loadMods();
+	}
+	
+	/**
+	 * Loads all of the Modules to the Module Manager.
+	 * <p>
+	 * You need to add your modules here manually, example:
+	 * <p>
+	 * Add another line of code in here just like the one that is already in
+	 * there, example, adding a Flight mod would be like this:
+	 * <p>
+	 * {@code this.modManager.registerMod(new Flight());}
+	 * <p>
+	 * For more information, go to the main Hackforums thread, which will
+	 * contain very in-depth usage.
+	 */
+	private void loadMods()
+	{
+		// this.modManager.registerMod(new MyModule());
 	}
 	
 	/**
