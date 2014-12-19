@@ -1,10 +1,9 @@
 package me.newgarbo.garbobase.module.mods;
 
-import java.awt.Color;
-
+import me.newgarbo.garbobase.event.Listener;
 import me.newgarbo.garbobase.utils.Key;
 
-public abstract class Module
+public abstract class Module implements Listener
 {
 	/**
 	 * The string that will be displayed in the ArrayList when this Module is

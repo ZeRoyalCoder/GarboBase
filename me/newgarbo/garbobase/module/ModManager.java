@@ -3,6 +3,7 @@ package me.newgarbo.garbobase.module;
 import java.util.ArrayList;
 
 import net.minecraft.client.model.ModelArmorStand;
+import me.newgarbo.garbobase.GarboBase;
 import me.newgarbo.garbobase.module.mods.Module;
 
 public class ModManager
@@ -33,10 +34,13 @@ public class ModManager
 	/**
 	 * Registers the specified module by adding it to the
 	 * {@link ModManager#mods} ArrayList.
+	 * <p>
+	 * Also registers it as a Listener.
 	 */
 	public void registerMod(Module mod)
 	{
 		this.mods.add(mod);
+		GarboBase.getInstance().eventManager.registerListener(mod);
 	}
 	
 	/**
@@ -76,7 +80,7 @@ public class ModManager
 		
 		return null;
 	}
-
+	
 	public ArrayList<Module> getRegisteredMods()
 	{
 		return this.mods;
