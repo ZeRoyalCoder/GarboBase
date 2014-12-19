@@ -32,28 +32,30 @@ public class EventManager
 			{
 				if (method.isAnnotationPresent(EventHandler.class) && method.getParameterTypes().length == 1 && method.getParameterTypes()[0].isAssignableFrom(event.getClass()))
 				{
-					if (event instanceof EventCancellable && isCancelled && method.getAnnotation(EventHandler.class).ignoreCancelled())
+					if (event instanceof EventCancellable && isCancelled && !method.getAnnotation(EventHandler.class).ignoreCancelled())
 					{
-						try
+						return;
+					}
+					
+					try
+					{
+						method.invoke(listener, event);
+						if (event instanceof EventCancellable)
 						{
-							method.invoke(listener, event);
-							if (event instanceof EventCancellable)
-							{
-								isCancelled = ((EventCancellable) event).isCancelled();
-							}
+							isCancelled = ((EventCancellable) event).isCancelled();
 						}
-						catch (IllegalAccessException e)
-						{
-							e.printStackTrace();
-						}
-						catch (IllegalArgumentException e)
-						{
-							e.printStackTrace();
-						}
-						catch (InvocationTargetException e)
-						{
-							e.printStackTrace();
-						}
+					}
+					catch (IllegalAccessException e)
+					{
+						e.printStackTrace();
+					}
+					catch (IllegalArgumentException e)
+					{
+						e.printStackTrace();
+					}
+					catch (InvocationTargetException e)
+					{
+						e.printStackTrace();
 					}
 				}
 			}

@@ -1,5 +1,7 @@
 package me.newgarbo.garbobase.utils;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.stats.StatFileWriter;
 
@@ -9,7 +11,16 @@ public class ReflectionUtils
 	{
 		try
 		{
-			return obj.getClass().getDeclaredField(var).get(obj);
+			Field f = obj.getClass().getDeclaredField(var);
+			Object returnObj = null;
+			
+			f.setAccessible(true);
+			
+			returnObj = f.get(obj);
+			
+			f.setAccessible(false);
+			
+			return returnObj;
 		}
 		catch (IllegalArgumentException e)
 		{

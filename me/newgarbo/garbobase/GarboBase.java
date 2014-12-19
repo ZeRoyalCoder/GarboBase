@@ -1,11 +1,8 @@
 package me.newgarbo.garbobase;
 
-import net.minecraft.stats.StatFileWriter;
 import me.newgarbo.garbobase.event.EventManager;
-import me.newgarbo.garbobase.hooks.HookPlayer;
 import me.newgarbo.garbobase.logger.GarboLogger;
 import me.newgarbo.garbobase.module.ModManager;
-import me.newgarbo.garbobase.utils.ReflectionUtils;
 
 /**
  * Main class for the GarboBase, extend this class or just use it as a global
@@ -58,28 +55,26 @@ public class GarboBase extends Wrapper
 	 */
 	private GarboLogger logger;
 	
-	static
-	{
-		instance = new GarboBase().startup();
-	}
-	
 	/**
 	 * Initializes the client and then returns an instance of GarboBase with all
 	 * the fields and managers initialized for {@link GarboBase#instance} to be
 	 * set to (set by the static block in {@link GarboBase}).
 	 */
-	public GarboBase startup()
+	public static GarboBase startup()
 	{
+		GarboBase gb = new GarboBase();
+		
+		GarboBase.instance = gb;
+		
 		long startupBeginTime = System.currentTimeMillis();
 		System.out.println("[" + CLIENT_NAME + "] Starting up...");
 		
-		loadManagers();
+		gb.loadManagers();
+		gb.loadHooks();
 		
-		loadHooks();
+		gb.logger = new GarboLogger(CLIENT_NAME);
 		
-		this.logger = new GarboLogger(CLIENT_NAME);
-		
-		return this;
+		return gb;
 	}
 	
 	/**
@@ -94,10 +89,7 @@ public class GarboBase extends Wrapper
 	 */
 	public void onTick()
 	{
-		if (!(getMinecraft().thePlayer instanceof HookPlayer))
-		{
-			getMinecraft().thePlayer = new HookPlayer(getMinecraft(), getPlayer().worldObj, getPlayer().sendQueue, (StatFileWriter) ReflectionUtils.getField(getPlayer(), "field_146108_bO"));
-		}
+		
 	}
 	
 	/**
@@ -107,6 +99,7 @@ public class GarboBase extends Wrapper
 	private void loadManagers()
 	{
 		this.modManager = new ModManager();
+		this.eventManager = new EventManager();
 		
 		this.loadMods();
 	}
