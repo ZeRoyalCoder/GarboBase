@@ -76,4 +76,9 @@ public class ModManager
 		
 		return null;
 	}
+
+	public ArrayList<Module> getRegisteredMods()
+	{
+		return this.mods;
+	}
 }
